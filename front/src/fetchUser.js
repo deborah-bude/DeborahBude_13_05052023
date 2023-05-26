@@ -17,6 +17,7 @@ export function userData(email, password) {
      })
      .then(function (resultatApi) {
        console.log(resultatApi) // contient le token
+       return resultatApi
      })
     .catch((err) => {
         console.log(err.message);

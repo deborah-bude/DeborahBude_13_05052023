@@ -5,7 +5,7 @@ import {userData} from "../../fetchUser";
 export default function SignIn(dataUser) {
     const [emailLog, setEmailLog] = useState();
     const [passwordLog, setPasswordLog] = useState();
-    const [token, setToken] = useState()
+    const [token, setToken] = useState("")
 
     // useEffect(() => {
     //     setToken(userData("tony@stark.com", "password123"))
@@ -15,7 +15,16 @@ export default function SignIn(dataUser) {
 
     function handleSubmit (event) {
         event.preventDefault();
-        setToken(userData(emailLog, passwordLog))
+        // console.log(userData(emailLog, passwordLog), token)
+        const dataLogin = userData(emailLog, passwordLog)
+        console.log(dataLogin)
+        if (dataLogin.status === "fulfilled") {
+            console.log("Connection réussie")
+            setToken(dataLogin.body.token);
+        } else {
+            console.log("Connection échoué")
+        }
+        setToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NWU1YjczNzNlNmI5NTU5MDEzYzdhZSIsImlhdCI6MTY4NTEwNTU5OCwiZXhwIjoxNjg1MTkxOTk4fQ.Q_AO8ZJb4t6D8jdBFScXeG7ukxKCslKwj0nUDUQ3-GE")
         console.log(token)
 
         // return <Navigate to="/user" replace={true} />
