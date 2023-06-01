@@ -1,10 +1,24 @@
 import React from "react";
+import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
-export default function User(dataUser) {
+export default function User() {
+    const firstName = "Tony"
+    const lastName = "Stark"
+    const navigate = useNavigate();
+    const tokenLog = useSelector(state => {
+        return state
+    })
+    console.log(tokenLog)
+
+    if (tokenLog === undefined) {
+        navigate('/sign-in', {replace: true});
+    }
+
     return (
         <main className="main bg-dark">
             <div className="header">
-                <h1>Welcome back<br/>{dataUser.firstName + dataUser.lastName} !</h1>
+                <h1>Welcome back<br/>{firstName + " " + lastName} !</h1>
                 <button className="edit-button">Edit Name</button>
             </div>
             <h2 className="sr-only">Accounts</h2>
