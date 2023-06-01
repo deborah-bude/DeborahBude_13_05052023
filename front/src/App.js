@@ -5,9 +5,11 @@ import Home from "./pages/Home/index"
 import SignIn from "./pages/SignIn/index";
 import User from "./pages/User/index";
 import Error404 from "./pages/Error/404";
+import {Provider} from "react-redux";
+import {store} from "./redux";
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <Header />
       <Routes>
           <Route path="/" element={<Home />} />
@@ -17,7 +19,7 @@ function App() {
           <Route path="*" element={<Error404 />} />
       </Routes>
       <Footer />
-    </>
+    </Provider>
   );
 }
 
