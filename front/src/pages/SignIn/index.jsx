@@ -1,33 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
-import {userData} from "../../fetchUser";
+import React, { useState } from "react";
+import {userDataLog} from "../../fetchUser";
+import {useDispatch} from "react-redux";
+import {updateToken} from "../../redux";
+import {useNavigate} from "react-router-dom";
 
 export default function SignIn(dataUser) {
     const [emailLog, setEmailLog] = useState();
     const [passwordLog, setPasswordLog] = useState();
-    const [token, setToken] = useState("")
+    const [errorMessage, setErrorMessage] = useState(false)
 
-    // useEffect(() => {
-    //     setToken(userData("tony@stark.com", "password123"))
-    //     // setToken(userData(emailLog, passwordLog))
-    //     console.log(token)
-    // }, []);
-
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
     function handleSubmit (event) {
         event.preventDefault();
-        // console.log(userData(emailLog, passwordLog), token)
-        const dataLogin = userData(emailLog, passwordLog)
-        console.log(dataLogin)
-        if (dataLogin.status === "fulfilled") {
-            console.log("Connection réussie")
-            setToken(dataLogin.body.token);
-        } else {
-            console.log("Connection échoué")
-        }
-        setToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NWU1YjczNzNlNmI5NTU5MDEzYzdhZSIsImlhdCI6MTY4NTEwNTU5OCwiZXhwIjoxNjg1MTkxOTk4fQ.Q_AO8ZJb4t6D8jdBFScXeG7ukxKCslKwj0nUDUQ3-GE")
-        console.log(token)
-
-        // return <Navigate to="/user" replace={true} />
+        userDataLog(emailLog, passwordLog).then(function (resultatApi) {
+            if (resultatApi.status === 200) {
+                dispatch(updateToken(resultatApi.body.token))
+                setErrorMessage(false)
+                navigate('/user', {replace: true});
+            } else {
+                setErrorMessage(true)
+            }
+        })
     }
 
     return(
@@ -35,6 +29,7 @@ export default function SignIn(dataUser) {
             <section className="sign-in-content">
                 <i className="fa fa-user-circle sign-in-icon"></i>
                 <h1>Sign In</h1>
+                { errorMessage && <p>Erreur : L'utilisateur n'a pas été trouvé</p> }
                 <form method="post" id="form-user-connect" onSubmit={handleSubmit}>
                     <div className="input-wrapper">
                         <label htmlFor="username">Username</label><input type="text" id="username" onChange={e => setEmailLog(e.target.value)}/>
