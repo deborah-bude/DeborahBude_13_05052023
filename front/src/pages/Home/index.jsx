@@ -3,8 +3,17 @@ import Feature from "../../components/Feature";
 import iconChat from "../../assets/icon-chat.png"
 import iconMoney from "../../assets/icon-money.png"
 import iconSecurity from "../../assets/icon-security.png"
+import {updateToken} from "../../redux";
+import {useDispatch} from "react-redux";
 
 export default function Home() {
+    const tokenStorage = localStorage.getItem('token')
+    const dispatch = useDispatch()
+    console.log(tokenStorage)
+    if (tokenStorage) {
+        dispatch(updateToken(tokenStorage))
+    }
+
     return (
         <main>
             <div className="hero">
