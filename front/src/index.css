@@ -166,6 +166,7 @@ body {
   border-color: #00bc77;
   background-color: #00bc77;
   color: #fff;
+  text-decoration: none;
 }
 
 .sign-in-content {
@@ -179,6 +180,41 @@ body {
 
 .sign-in-icon {
   font-size: 5rem;
+}
+
+.error-message {
+  padding: 5px 15px;
+  margin: 20px auto;
+  color: rgb(54, 13, 17);
+  background: rgb(220,53,69);
+  width: 80%;
+}
+
+.form-user-edit-name {
+  margin: auto;
+  width: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.form-user-edit-name .input-wrapper {
+  width: 47%;
+  margin-right: 5%;
+}
+
+.form-user-edit-name .input-wrapper:nth-child(2) {
+  margin-right: 0;
+}
+
+.form-user-edit-name .sign-in-button {
+  width: 35%;
+  margin-right: 5%;
+}
+
+.form-user-edit-name a.sign-in-button {
+  margin-right: 0;
 }
 
 .input-remember {

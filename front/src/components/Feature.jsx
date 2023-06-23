@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function Feature(data) {
     return (
         <div className="feature-item">
