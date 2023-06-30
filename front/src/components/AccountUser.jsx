@@ -10,7 +10,7 @@ export default function AccountUser(data) {
                 <p className="account-amount-description">{data.description}</p>
             </div>
             <div className="account-content-wrapper cta">
-                <Link to="/transaction/1" className="transaction-button">View transactions</Link>
+                <Link to="#" className="transaction-button">View transactions</Link>
             </div>
         </section>
     );

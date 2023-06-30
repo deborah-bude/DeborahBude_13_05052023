@@ -1,14 +1,35 @@
 import logo from "../assets/argentBankLogo.png";
 import { NavLink, Link } from "react-router-dom";
-import React from "react";
+import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {isUserAuthenticatedSelector, updateToken, userName} from "../redux";
+import {RememberUserSession} from "../RememberUserSession";
+import {userDataProfile} from "../fetchUser";
 
 export default function Header() {
     const isUserAuthenticated = useSelector(isUserAuthenticatedSelector)
     const userFirstName = useSelector(state => state.userName.firstName)
-    //const isUserAuthenticated = useSelector(state => state.token.isUserAuthenticatedSelector)
     const dispatch = useDispatch()
+    //const tokenStorage = localStorage.getItem('token')
+    /*useEffect(() => {
+        if (!tokenStorage) {
+            return
+        }
+        dispatch(updateToken(tokenStorage))
+        userDataProfile(tokenStorage).then(function (resultatApi) {
+            const user = {
+                firstName: resultatApi.body.firstName,
+                lastName: resultatApi.body.lastName
+            }
+            dispatch(userName(user))
+        })
+            .catch((error) => {
+                console.error(error)
+            })
+    }, [])*/
+    useEffect(() => {
+        RememberUserSession(dispatch)
+    }, [])
 
     function logOut() {
         dispatch(updateToken(null))

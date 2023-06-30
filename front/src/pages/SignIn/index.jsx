@@ -1,36 +1,35 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {userDataLog} from "../../fetchUser";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {updateToken} from "../../redux";
 import {useNavigate} from "react-router-dom";
 import ErrorMessage from "../../components/ErrorMessage";
+import {RememberUserSession} from "../../RememberUserSession";
 
 export default function SignIn() {
     const [emailLog, setEmailLog] = useState();
     const [passwordLog, setPasswordLog] = useState();
     const [errorMessage, setErrorMessage] = useState(false)
     const [remember, setRemember] = useState(false)
-    const [items, setItems] = useState([]);
 
     const dispatch = useDispatch()
     const navigate = useNavigate();
+    const token = useSelector(state => state.token)
+
+    useEffect(() => {
+        if (token) {
+            return navigate("/user")
+        }
+    })
 
     function handleSubmit(event) {
         event.preventDefault();
-
-        const form = event.target;
-        const formData = new FormData(form);
-
-        // Or you can work with it as a plain object:
-        const formJson = Object.fromEntries(formData.entries());
-        console.log(formJson);
-
         setErrorMessage(false)
         userDataLog(emailLog, passwordLog)
             .then(function (resultatApi) {
                 dispatch(updateToken(resultatApi.body.token))
                 if(remember) {
-                    localStorage.setItem('token', JSON.stringify(resultatApi.body.token))
+                    localStorage.setItem('token', resultatApi.body.token)
                 }
                 navigate('/user', {replace: true});
             })
