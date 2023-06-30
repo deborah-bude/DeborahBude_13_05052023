@@ -60,13 +60,14 @@ paths:
   /user/profile:
     post:
       security:
-        - Bearer: []
+        - Bearer: [ ]
       tags:
         - User Module
       summary: User Profile API
       description: API for fetching a user profile
       parameters:
         - in: header
+          type: string
           name: Authorization
           description: Attach Bearer JWT token
           required: true
@@ -83,13 +84,14 @@ paths:
           description: Internal Server Error
     put:
       security:
-        - Bearer: []
+        - Bearer: [ ]
       tags:
         - User Module
       summary: User Profile API
       description: API for updating a user profile
       parameters:
         - in: header
+          type: string
           name: Authorization
           description: Attach Bearer JWT token
           required: true
@@ -106,6 +108,96 @@ paths:
           description: User profile retrieved successully
           schema:
             $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/transactions:
+    get:
+      security:
+        - Bearer: [ ]
+      tags:
+        - Transaction
+      summary: Transaction
+      description: API for all transactions
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Get all transactions successfully
+          schema:
+            $ref: '#/definitions/ApiResponseTransactions'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/transactions/{id}:
+    get:
+      security:
+        - Bearer: [ ]
+      tags:
+        - Transaction
+      summary: Transaction
+      description: API for one transaction
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - name: id
+          type: string
+          in: path
+          description: Transaction ID
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Get transaction Successfully
+          schema:
+            $ref: '#/definitions/ApiResponseTransaction'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    patch:
+      security:
+        - Bearer: [ ]
+      tags:
+        - Transaction
+      summary: Transaction
+      description: Edit information's transaction (Category & notes)
+      parameters:
+        - in: header
+          type: string
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - name: id
+          type: string
+          in: path
+          description: Transaction ID
+          required: true
+        - in: body
+          name: body
+          description: Update category attributes
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionInformations'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Information's transaction edit successully
+          schema:
+            $ref: '#/definitions/ApiResponseTransaction'
         '400':
           description: Invalid Fields
         '500':
@@ -163,4 +255,54 @@ definitions:
       firstName:
         type: string
       lastName:
+        type: string
+  ApiResponseTransactions:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        date:
+          type: string
+          format: date-time
+        amount:
+          type: integer
+        total:
+          type: integer
+  ApiResponseTransaction:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+          name:
+            type: string
+          date:
+            type: string
+            format: date-time
+          amount:
+            type: integer
+          total:
+            type: integer
+          type:
+            type: string
+          category:
+            type: string
+          notes:
+            type: string
+  TransactionInformations:
+    type: object
+    properties:
+      category:
+        type: string
+      notes:
         type: string
